@@ -11,13 +11,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Task Management',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple, brightness: Brightness.dark),
         useMaterial3: true,
       ),
-      home: const MainScreen(title: 'Flutter Demo Home Page'),
+      // darkTheme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,brightness: Brightness.dark),
+      //   useMaterial3: true,
+      // ),
+      home: const MainScreen(title: 'My Tasks'),
     );
   }
 }
