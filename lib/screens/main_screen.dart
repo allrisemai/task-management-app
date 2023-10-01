@@ -12,17 +12,24 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // void _incrementCounter() {
-  //   setState(() {
-  //     _counter++;
-  //   });
-  // }
   List<Tab> _tabs = [];
   List<TaskModel> task = [
     TaskModel(
         id: '1',
-        title: 'title',
-        description: 'description',
+        title: 'Read a book',
+        description: 'Spend an hour reading a book for pleasure',
+        createdAt: DateTime.now(),
+        status: "TODO"),
+    TaskModel(
+        id: '2',
+        title: 'Read a book',
+        description: 'Spend an hour reading a book for pleasure',
+        createdAt: DateTime.now(),
+        status: "TODO"),
+    TaskModel(
+        id: '3',
+        title: 'Read a book',
+        description: 'Spend an hour reading a book for pleasure',
         createdAt: DateTime.now(),
         status: "TODO")
   ];
@@ -86,7 +93,8 @@ class _MainScreenState extends State<MainScreen> {
               preferredSize: const Size.fromHeight(50.0),
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    // color: Colors.white,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     borderRadius: BorderRadius.circular(50.0)),
                 width: MediaQuery.of(context).size.width * 0.8,
                 // transform: Matrix4.translationValues(0.0, 20.0, 0.0),
@@ -94,6 +102,8 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     SizedBox(
                       child: TabBar(
+                        overlayColor: MaterialStateProperty.all<Color>(
+                            Colors.transparent),
                         tabs: TabList.tabList
                             .map((tab) => Tab(
                                   text: tab,
@@ -101,12 +111,19 @@ class _MainScreenState extends State<MainScreen> {
                             .toList(),
                         indicator: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          gradient: const LinearGradient(colors: [
-                            Colors.redAccent,
-                            Colors.deepPurpleAccent
-                          ]),
+                          gradient: LinearGradient(
+                              begin: const Alignment(-1, -1),
+                              end: const Alignment(1, 1),
+                              colors: [
+                                Theme.of(context).colorScheme.secondary,
+                                Theme.of(context).colorScheme.primary
+                              ]),
                         ),
-                        // unselectedLabelColor: Colors.black54,
+                        unselectedLabelColor:
+                            Theme.of(context).colorScheme.primary,
+                        labelColor: Colors.white,
+                        labelStyle:
+                            const TextStyle(fontWeight: FontWeight.w500),
                         indicatorSize: TabBarIndicatorSize.tab,
                         dividerColor: Colors.transparent,
                       ),
@@ -117,13 +134,19 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           body: Container(
-            margin:
-                const EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+            margin: const EdgeInsets.symmetric(
+              vertical: 15.0,
+            ),
             child: TabBarView(
               // controller: _tabController,
               children: [
-                Column(
-                  children: [TaskItem(task: task[0])],
+                ListView.builder(
+                  itemCount: task.length,
+                  itemBuilder: (context, index) {
+                    return TaskItem(
+                      task: task[index],
+                    );
+                  },
                 ),
                 Text('data2'),
                 Text('data3'),

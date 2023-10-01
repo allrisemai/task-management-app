@@ -10,14 +10,28 @@ class TaskItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.circular(10.0),
+    return ListTile(
+      // width: double.infinity,
+      // padding: const EdgeInsets.all(10.0),
+      // decoration: BoxDecoration(
+      //   // color: Theme.of(context).colorScheme.inversePrimary,
+      //   borderRadius: BorderRadius.circular(10.0),
+      // ),
+      title: Text(
+        task.title,
+        style: Theme.of(context)
+            .textTheme
+            .titleSmall!
+            .apply(color: Theme.of(context).primaryColor),
       ),
-      child: Text(task.title),
+      leading: const Icon(Icons.check_circle_outline_rounded),
+      subtitle: Text(
+        task.description,
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .apply(color: Colors.black26),
+      ),
     );
   }
 }
