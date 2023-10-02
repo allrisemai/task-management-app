@@ -11,26 +11,25 @@ class TaskItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      // width: double.infinity,
-      // padding: const EdgeInsets.all(10.0),
-      // decoration: BoxDecoration(
-      //   // color: Theme.of(context).colorScheme.inversePrimary,
-      //   borderRadius: BorderRadius.circular(10.0),
-      // ),
       title: Text(
         task.title,
+        // maxLines: 2,
+        overflow: TextOverflow.ellipsis,
         style: Theme.of(context)
             .textTheme
             .titleSmall!
             .apply(color: Theme.of(context).primaryColor),
       ),
-      leading: const Icon(Icons.check_circle_outline_rounded),
+      leading: Icon(
+        Icons.check_circle_outline_rounded,
+        color: task.status == "TODO" ? Colors.amber : Colors.deepOrange,
+      ),
       subtitle: Text(
         task.description,
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .apply(color: Colors.black26),
+        style:
+            Theme.of(context).textTheme.bodyLarge!.apply(color: Colors.black45),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

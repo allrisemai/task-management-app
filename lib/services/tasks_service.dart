@@ -7,7 +7,7 @@ import 'package:task_management_app/services/dio_exception.dart';
 class TasksService {
   final _dio = DioClient();
 
-  Future<TaskList?> getTaskList({
+  Future<TaskInfo?> getTaskList({
     int? offset,
     int? limit,
     String? status,
@@ -19,7 +19,7 @@ class TasksService {
           ? <String, dynamic>{
               "offset": offset ?? 0,
               "limit": limit ?? 10,
-              'sortBy': sortBy ?? '',
+              'sortBy': sortBy ?? 'createdAt',
               "isAsc": isAsc ?? true,
               "status": status
             }
@@ -32,7 +32,7 @@ class TasksService {
       final response = await _dio.get('/todo-list', queryParameters: params
           // '?offset=${offset ?? 0}&limit=${limit ?? 10}${sortBy != null ? "&sortBy=$sortBy" : ""}&isAsc=${isAsc ?? true}${status != null ? '&status=$status' : ""}'
           );
-      return TaskList.fromJson(response);
+      return TaskInfo.fromJson(response);
     } on DioException catch (err) {
       final errorMessage = CustomDioException.fromDioError(err).toString();
       if (kDebugMode) {
