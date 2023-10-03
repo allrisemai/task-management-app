@@ -17,22 +17,29 @@ class _MainScreenState extends State<MainScreen>
   List<Tab> _tabsWidget = [];
   String _seletecTab = TabList.tabList[0];
   late TabController _tabController;
+  final _scrollController = ScrollController();
   TaskController taskController = Get.put(TaskController());
 
   @override
   void initState() {
     setState(() {
-      _tabsWidget = getTabs(3);
+      _tabsWidget = getTabs(TabList.tabList.length);
     });
-    taskController.fetchTasks(_seletecTab);
     _tabController = TabController(vsync: this, length: _tabsWidget.length);
-    _tabController.addListener(handleChangeTab);
+    _tabController.addListener(_handleChangeTab);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await taskController.fetchTasks(_seletecTab);
+      _scrollController.addListener(_loadMoreData);
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -54,7 +61,7 @@ class _MainScreenState extends State<MainScreen>
     return _tabsWidget;
   }
 
-  void handleChangeTab() {
+  void _handleChangeTab() {
     setState(() {
       _seletecTab = TabList.tabList[_tabController.index];
     });
@@ -85,6 +92,17 @@ class _MainScreenState extends State<MainScreen>
     }
   }
 
+  void _loadMoreData() async {
+    if ((_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 100) &&
+        (taskController.tasksTodo.value.pageNumber <=
+            taskController.tasksTodo.value.totalPages) &&
+        taskController.isFetchNewData.isFalse) {
+      // print('fetchTask>>${taskController.tasksTodo.value.pageNumber}');
+      await taskController.fetchTasks(_seletecTab);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -92,11 +110,9 @@ class _MainScreenState extends State<MainScreen>
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          // bottomOpacity: 0.0,
           toolbarHeight: 110.0,
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 widget.title,
@@ -157,26 +173,32 @@ class _MainScreenState extends State<MainScreen>
             ),
           ),
         ),
-        body: Container(
-          margin: const EdgeInsets.symmetric(
-            vertical: 15.0,
-          ),
-          child: Obx(() {
-            return TabBarView(
-              controller: _tabController,
-              children: [
-                TaskListView(tasks: taskController.tasksTodo.value.tasks),
-                TaskListView(tasks: taskController.tasksDoing.value.tasks),
-                TaskListView(tasks: taskController.tasksDone.value.tasks),
-              ],
-            );
-          }),
-        ),
+        body: Obx(() {
+          return TabBarView(
+            controller: _tabController,
+            children: [
+              TaskListView(
+                tasks: taskController.tasksTodo.value.tasks,
+                isLoading: taskController.isTodoLoading,
+                controller: _scrollController,
+              ),
+              TaskListView(
+                tasks: taskController.tasksDoing.value.tasks,
+                isLoading: taskController.isDoingLoading,
+                controller: _scrollController,
+              ),
+              TaskListView(
+                tasks: taskController.tasksDone.value.tasks,
+                isLoading: taskController.isDoneLoading,
+                controller: _scrollController,
+              ),
+            ],
+          );
+        }),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            taskController.fetchTasks(_seletecTab);
-          },
-          tooltip: 'Increment',
+          onPressed: () async {},
+          tooltip: 'Add tasks',
+          shape: const CircleBorder(),
           child: const Icon(Icons.add),
         ),
       ),
