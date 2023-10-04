@@ -15,6 +15,7 @@ class TaskController extends GetxController {
   RxBool isDoingLoading = true.obs;
   RxBool isDoneLoading = true.obs;
   RxBool isFetchNewData = false.obs;
+
   void updateTaskInfo(Rx<TaskInfo> taskInfo, TaskInfo newValue) {
     taskInfo.value.pageNumber = newValue.pageNumber + 1;
     taskInfo.value.totalPages = newValue.totalPages;

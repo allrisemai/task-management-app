@@ -39,6 +39,7 @@ dependencies:
   shimmer: ^3.0.0
   intl: ^0.18.1
   flutter_slidable: ^3.0.0
+  flutter_screen_lock: ^9.0.1
 
 dev_dependencies:
   flutter_test:

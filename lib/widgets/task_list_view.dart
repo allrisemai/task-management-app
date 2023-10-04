@@ -20,7 +20,7 @@ class TaskListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TaskController taskController = Get.put(TaskController());
-    return isLoading.value
+    return isLoading.isTrue
         ? const TaskListViewSkeleton()
         : Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 30.0),
@@ -51,23 +51,8 @@ class TaskListView extends StatelessWidget {
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
                               ),
-                              Slidable(
-                                endActionPane: ActionPane(
-                                  motion: const StretchMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (_) =>
-                                          taskController.deleteTask(
-                                              tasks[index].id,
-                                              tasks[index].status),
-                                      icon: Icons.delete_rounded,
-                                      backgroundColor: const Color(0xFFFE4A49),
-                                    )
-                                  ],
-                                ),
-                                child: TaskItem(
-                                  task: tasks[index],
-                                ),
+                              TaskItem(
+                                task: tasks[index],
                               )
                             ]);
                       } else {
@@ -79,7 +64,8 @@ class TaskListView extends StatelessWidget {
                   ),
                 ),
                 taskController.isFetchNewData.isTrue
-                    ? const Expanded(child: TaskListViewSkeleton())
+                    ? const Text("loading data..")
+                    // const Expanded(child: TaskListViewSkeleton())
                     : const SizedBox()
               ],
             ),
