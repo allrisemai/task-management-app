@@ -14,18 +14,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
-  List<Tab> _tabsWidget = [];
-  String _seletecTab = TabList.tabList[0];
-  late TabController _tabController;
   final _scrollController = ScrollController();
   TaskController taskController = Get.put(TaskController());
+  late TabController _tabController;
+  String _seletecTab = TabList.tabList[0];
 
   @override
   void initState() {
-    setState(() {
-      _tabsWidget = getTabs(TabList.tabList.length);
-    });
-    _tabController = TabController(vsync: this, length: _tabsWidget.length);
+    _tabController = TabController(vsync: this, length: TabList.tabList.length);
     _tabController.addListener(_handleChangeTab);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -40,25 +36,8 @@ class _MainScreenState extends State<MainScreen>
   void dispose() {
     _tabController.dispose();
     _scrollController.dispose();
-    super.dispose();
-  }
 
-  List<Tab> getTabs(int count) {
-    _tabsWidget.clear();
-    for (int i = 0; i < TabList.tabList.length; i++) {
-      _tabsWidget.add(Tab(
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Colors.redAccent, width: 1)),
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(TabList.tabList[i].toLowerCase()),
-          ),
-        ),
-      ));
-    }
-    return _tabsWidget;
+    super.dispose();
   }
 
   void _handleChangeTab() {
@@ -98,7 +77,6 @@ class _MainScreenState extends State<MainScreen>
         (taskController.tasksTodo.value.pageNumber <=
             taskController.tasksTodo.value.totalPages) &&
         taskController.isFetchNewData.isFalse) {
-      // print('fetchTask>>${taskController.tasksTodo.value.pageNumber}');
       await taskController.fetchTasks(_seletecTab);
     }
   }
@@ -106,7 +84,7 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: _tabsWidget.length,
+      length: TabList.tabList.length,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -133,11 +111,10 @@ class _MainScreenState extends State<MainScreen>
             preferredSize: const Size.fromHeight(50.0),
             child: Container(
               decoration: BoxDecoration(
-                  // color: Colors.white,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                  borderRadius: BorderRadius.circular(50.0)),
+                color: Theme.of(context).colorScheme.inversePrimary,
+                borderRadius: BorderRadius.circular(50.0),
+              ),
               width: MediaQuery.of(context).size.width * 0.8,
-              // transform: Matrix4.translationValues(0.0, 20.0, 0.0),
               child: Stack(
                 children: [
                   SizedBox(

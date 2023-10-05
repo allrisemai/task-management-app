@@ -4,7 +4,6 @@ import 'package:task_management_app/models/task_model.dart';
 import 'package:task_management_app/services/tasks_service.dart';
 
 class TaskController extends GetxController {
-  // RxList<TaskModel> tasks = <TaskModel>[].obs;
   Rx<TaskInfo> tasksTodo =
       TaskInfo(tasks: <TaskModel>[].obs, pageNumber: 0, totalPages: 0).obs;
   Rx<TaskInfo> tasksDoing =

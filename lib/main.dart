@@ -1,12 +1,34 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:task_management_app/screens/main_screen.dart';
+import 'package:task_management_app/utils/session.dart';
+import 'package:task_management_app/utils/session_manager.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  StreamController streamController = StreamController();
+  Session session = Session();
+  @override
+  void initState() {
+    session.startListener(streamController: streamController, context: context);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +54,6 @@ class MyApp extends StatelessWidget {
             fontSize: 72,
             fontWeight: FontWeight.bold,
           ),
-          // ···
-
           titleMedium: TextStyle(
             fontSize: 36,
             fontWeight: FontWeight.bold,
@@ -42,15 +62,13 @@ class MyApp extends StatelessWidget {
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
-          // bodyMedium: GoogleFonts.merriweather(),
-          // displaySmall: GoogleFonts.pacifico(),
         ),
       ),
-      // darkTheme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,brightness: Brightness.dark),
-      //   useMaterial3: true,
-      // ),
-      home: const MainScreen(title: 'My Tasks'),
+      home: SessionManager(
+          streamController: streamController,
+          duration: const Duration(seconds: 10),
+          context: context,
+          child: const MainScreen(title: 'My Tasks')),
     );
   }
 }
