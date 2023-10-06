@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_management_app/controllers/tab_controller.dart';
 import 'package:task_management_app/controllers/task_controller.dart';
-import 'package:task_management_app/utils/tab_list.dart';
 import 'package:task_management_app/widgets/task_list_view.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,16 +16,17 @@ class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   final _scrollController = ScrollController();
   TaskController taskController = Get.put(TaskController());
+  MyTabController myTabController = Get.put(MyTabController());
   late TabController _tabController;
-  String _seletecTab = TabList.tabList[0];
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, length: TabList.tabList.length);
+    _tabController =
+        TabController(vsync: this, length: myTabController.tabList.length);
     _tabController.addListener(_handleChangeTab);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await taskController.fetchTasks(_seletecTab);
+      await taskController.fetchTasks(myTabController.currentTab.value.id);
       _scrollController.addListener(_loadMoreData);
     });
 
@@ -40,31 +41,30 @@ class _MainScreenState extends State<MainScreen>
     super.dispose();
   }
 
-  void _handleChangeTab() {
-    setState(() {
-      _seletecTab = TabList.tabList[_tabController.index];
-    });
+  void _handleChangeTab() async {
+    await myTabController
+        .onTabChange(myTabController.tabList[_tabController.index]);
 
-    switch (_seletecTab) {
+    switch (myTabController.currentTab.value.id) {
       case "TODO":
         if (taskController.tasksTodo.value.tasks.isEmpty &&
             taskController.tasksTodo.value.pageNumber <=
                 taskController.tasksTodo.value.totalPages) {
-          taskController.fetchTasks(TabList.tabList[_tabController.index]);
+          taskController.fetchTasks(myTabController.currentTab.value.id);
         }
         break;
       case "DOING":
         if (taskController.tasksDoing.value.tasks.isEmpty &&
             taskController.tasksDoing.value.pageNumber <=
                 taskController.tasksDoing.value.totalPages) {
-          taskController.fetchTasks(TabList.tabList[_tabController.index]);
+          taskController.fetchTasks(myTabController.currentTab.value.id);
         }
         break;
       case "DONE":
         if (taskController.tasksDone.value.tasks.isEmpty &&
             taskController.tasksDone.value.pageNumber <=
                 taskController.tasksDone.value.totalPages) {
-          taskController.fetchTasks(TabList.tabList[_tabController.index]);
+          taskController.fetchTasks(myTabController.currentTab.value.id);
         }
         break;
       default:
@@ -77,14 +77,14 @@ class _MainScreenState extends State<MainScreen>
         (taskController.tasksTodo.value.pageNumber <=
             taskController.tasksTodo.value.totalPages) &&
         taskController.isFetchNewData.isFalse) {
-      await taskController.fetchTasks(_seletecTab);
+      await taskController.fetchTasks(myTabController.currentTab.value.id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: TabList.tabList.length,
+      length: myTabController.tabList.length,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -107,6 +107,12 @@ class _MainScreenState extends State<MainScreen>
               borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(20.0),
           )),
+          leading: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.menu,
+                color: Theme.of(context).colorScheme.primary,
+              )),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(50.0),
             child: Container(
@@ -122,9 +128,9 @@ class _MainScreenState extends State<MainScreen>
                       controller: _tabController,
                       overlayColor:
                           MaterialStateProperty.all<Color>(Colors.transparent),
-                      tabs: TabList.tabList
+                      tabs: myTabController.tabList
                           .map((tab) => Tab(
-                                text: tab,
+                                text: tab.tabName,
                               ))
                           .toList(),
                       indicator: BoxDecoration(

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:task_management_app/models/task_list_model.dart';
+import 'package:task_management_app/models/task_info_model.dart';
 import 'package:task_management_app/models/task_model.dart';
 import 'package:task_management_app/services/tasks_service.dart';
 
@@ -20,6 +20,7 @@ class TaskController extends GetxController {
     taskInfo.value.totalPages = newValue.totalPages;
     taskInfo.value.tasks.addAll(newValue.tasks);
     taskInfo.refresh();
+    isFetchNewData.value = false;
   }
 
   Future<void> fetchTasks(String status) async {
@@ -27,14 +28,14 @@ class TaskController extends GetxController {
 
     switch (status) {
       case 'TODO':
-        isFetchNewData = true.obs;
+        isFetchNewData.value = true;
         await request
-            .getTaskList(offset: tasksTodo.value.pageNumber, status: status)
+            .getTaskList(
+                offset: tasksTodo.value.pageNumber, status: status, limit: 6)
             .then((value) {
           if (value != null) {
             updateTaskInfo(tasksTodo, value);
-            isTodoLoading = false.obs;
-            isFetchNewData = false.obs;
+            isTodoLoading.value = false;
           }
         }).catchError((onError) {
           printError();
@@ -42,28 +43,26 @@ class TaskController extends GetxController {
 
         break;
       case 'DOING':
-        isFetchNewData = true.obs;
+        isFetchNewData.value = true;
         request
             .getTaskList(offset: tasksDoing.value.pageNumber, status: status)
             .then((value) {
           if (value != null) {
             updateTaskInfo(tasksDoing, value);
-            isDoingLoading = false.obs;
-            isFetchNewData = false.obs;
+            isDoingLoading.value = false;
           }
         }).catchError((onError) {
           printError();
         });
         break;
       case 'DONE':
-        isFetchNewData = true.obs;
+        isFetchNewData.value = true;
         request
             .getTaskList(offset: tasksDone.value.pageNumber, status: status)
             .then((value) {
           if (value != null) {
             updateTaskInfo(tasksDone, value);
-            isDoneLoading = false.obs;
-            isFetchNewData = false.obs;
+            isDoneLoading.value = false;
           }
         }).catchError((onError) {
           printError();

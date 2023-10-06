@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:task_management_app/models/task_list_model.dart';
+import 'package:task_management_app/models/task_info_model.dart';
 import 'package:task_management_app/services/dio_client.dart';
 import 'package:task_management_app/services/dio_exception.dart';
 

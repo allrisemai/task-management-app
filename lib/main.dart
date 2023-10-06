@@ -43,9 +43,6 @@ class _MyAppState extends State<MyApp> {
           seedColor: const Color(0xff4d2189),
           primary: const Color(0xff4d2189),
           secondary: const Color(0xffc21092),
-// #f5e6fd
-          // linear-gradient(45deg, rgba(204,21,158,1) 0%, rgba(85,30,150,1) 60%)
-          // brightness: Brightness.dark,
         ),
         fontFamily: 'Kanit',
         useMaterial3: true,
@@ -55,7 +52,7 @@ class _MyAppState extends State<MyApp> {
             fontWeight: FontWeight.bold,
           ),
           titleMedium: TextStyle(
-            fontSize: 36,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
           titleSmall: TextStyle(
@@ -66,7 +63,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: SessionManager(
           streamController: streamController,
-          duration: const Duration(seconds: 10),
+          duration: const Duration(hours: 1),
           context: context,
           child: const MainScreen(title: 'My Tasks')),
     );
