@@ -130,6 +130,7 @@ class _MainScreenState extends State<MainScreen>
                           MaterialStateProperty.all<Color>(Colors.transparent),
                       tabs: myTabController.tabList
                           .map((tab) => Tab(
+                                key: Key('tab_${tab.id}'),
                                 text: tab.tabName,
                               ))
                           .toList(),
