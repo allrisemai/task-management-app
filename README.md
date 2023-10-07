@@ -13,7 +13,7 @@ The Task Management Application is a mobile app designed to help users manage th
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/task-management-app.git
+   git clone https://github.com/allrisemai/task-management-app.git
    ```
 
 2. Navigate to the project folder:
