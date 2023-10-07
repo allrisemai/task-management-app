@@ -58,14 +58,10 @@ The Task Management Application is a mobile app designed to help users manage th
 
 To run unit tests, use the following:
 
-    ```bash
     flutter test
-    ```
 
 ### Integration Tests
 
 Use the following to run integration tests:
 
-    ```bash
     flutter test integration_test
-    ```
