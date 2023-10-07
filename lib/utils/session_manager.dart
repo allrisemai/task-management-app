@@ -26,6 +26,7 @@ class _SessionManagerState extends State<SessionManager>
 
   //by using this function start the session timer
   void _startSessionTimer() {
+    if (!mounted) return;
     _sessionTimer = Timer(widget.duration, () {
       screenLock(
           context: context,
@@ -36,7 +37,8 @@ class _SessionManagerState extends State<SessionManager>
 
             Navigator.of(context).pop();
           },
-          onOpened: cancelTimer);
+          onOpened: cancelTimer,
+          title: const Text('Please enter your passcode'));
     });
   }
 
@@ -81,6 +83,7 @@ class _SessionManagerState extends State<SessionManager>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    cancelTimer();
     super.dispose();
   }
 

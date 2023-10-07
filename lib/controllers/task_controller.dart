@@ -15,6 +15,8 @@ class TaskController extends GetxController {
   RxBool isDoneLoading = true.obs;
   RxBool isFetchNewData = false.obs;
 
+  TasksService request = TasksService();
+
   void updateTaskInfo(Rx<TaskInfo> taskInfo, TaskInfo newValue) {
     taskInfo.value.pageNumber = newValue.pageNumber + 1;
     taskInfo.value.totalPages = newValue.totalPages;
@@ -24,14 +26,11 @@ class TaskController extends GetxController {
   }
 
   Future<void> fetchTasks(String status) async {
-    TasksService request = TasksService();
-
     switch (status) {
       case 'TODO':
         isFetchNewData.value = true;
         await request
-            .getTaskList(
-                offset: tasksTodo.value.pageNumber, status: status, limit: 6)
+            .getTaskList(offset: tasksTodo.value.pageNumber, status: status)
             .then((value) {
           if (value != null) {
             updateTaskInfo(tasksTodo, value);

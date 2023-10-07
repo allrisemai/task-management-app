@@ -83,7 +83,7 @@ class TaskDetailScreen extends StatelessWidget {
                     vertical: 15.0, horizontal: 30.0),
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pop(),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary),
                   child: const Text(

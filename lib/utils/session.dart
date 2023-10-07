@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class Session {
   BuildContext? context;
   StreamController? streamController;
-  bool enableLoginPage = false;
 
   //by using this function we will able to start the session
   void startListener({
@@ -25,7 +24,6 @@ class Session {
   }) {
     this.streamController = streamController;
     this.context = context;
-    enableLoginPage = false;
     Map<String, dynamic> map = {'context': context, 'timer': false};
     streamController.add(map);
   }

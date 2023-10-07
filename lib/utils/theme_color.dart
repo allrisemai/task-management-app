@@ -1,3 +1,0 @@
-class ThemeColor {
-  ThemeColor._();
-}

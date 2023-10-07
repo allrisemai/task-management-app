@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:task_management_app/controllers/task_controller.dart';
 import 'package:task_management_app/models/task_model.dart';
+import 'package:task_management_app/utils/date_utils.dart';
 import 'package:task_management_app/widgets/skeleton_loading/task_list_view_skeleton.dart';
 import 'package:task_management_app/widgets/task_item.dart';
 
@@ -37,7 +37,7 @@ class TaskListView extends StatelessWidget {
                           isSameDate = false;
                         } else {
                           final DateTime prevDate = tasks[index - 1].createdAt;
-                          isSameDate = date.isSameDate(prevDate);
+                          isSameDate = DateHelper.isSameDate(prevDate, date);
                         }
                         if (index == 0 || !(isSameDate)) {
                           return Column(
@@ -47,7 +47,7 @@ class TaskListView extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20.0, vertical: 10.0),
                                   child: Text(
-                                    date.formatDate(),
+                                    DateHelper.formatDate(date),
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
@@ -55,11 +55,13 @@ class TaskListView extends StatelessWidget {
                                   ),
                                 ),
                                 TaskItem(
+                                  key: Key('TaskItem_${tasks[index].status}'),
                                   task: tasks[index],
                                 )
                               ]);
                         } else {
                           return TaskItem(
+                            key: Key('TaskItem_${tasks[index].status}'),
                             task: tasks[index],
                           );
                         }
@@ -82,18 +84,5 @@ class TaskListView extends StatelessWidget {
               ),
             );
           });
-  }
-}
-
-const String dateFormatter = 'MMMM dd, y';
-
-extension DateHelper on DateTime {
-  String formatDate() {
-    final formatter = DateFormat(dateFormatter);
-    return formatter.format(this);
-  }
-
-  bool isSameDate(DateTime other) {
-    return year == other.year && month == other.month && day == other.day;
   }
 }

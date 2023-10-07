@@ -24,6 +24,7 @@ class TaskItem extends StatelessWidget {
         );
       },
       child: Container(
+        key: Key(task.id),
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(16.0)),
         margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),

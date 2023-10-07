@@ -19,6 +19,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   StreamController streamController = StreamController();
   Session session = Session();
+
   @override
   void initState() {
     session.startListener(streamController: streamController, context: context);
@@ -63,7 +64,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: SessionManager(
           streamController: streamController,
-          duration: const Duration(hours: 1),
+          duration: const Duration(seconds: 10),
           context: context,
           child: const MainScreen(title: 'My Tasks')),
     );
