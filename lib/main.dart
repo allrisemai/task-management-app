@@ -1,12 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:task_management_app/screens/main_screen.dart';
+import 'package:task_management_app/utils/session.dart';
+import 'package:task_management_app/utils/session_manager.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  StreamController streamController = StreamController();
+  Session session = Session();
+
+  @override
+  void initState() {
+    session.startListener(streamController: streamController, context: context);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +44,6 @@ class MyApp extends StatelessWidget {
           seedColor: const Color(0xff4d2189),
           primary: const Color(0xff4d2189),
           secondary: const Color(0xffc21092),
-// #f5e6fd
-          // linear-gradient(45deg, rgba(204,21,158,1) 0%, rgba(85,30,150,1) 60%)
-          // brightness: Brightness.dark,
         ),
         fontFamily: 'Kanit',
         useMaterial3: true,
@@ -32,25 +52,21 @@ class MyApp extends StatelessWidget {
             fontSize: 72,
             fontWeight: FontWeight.bold,
           ),
-          // ···
-
           titleMedium: TextStyle(
-            fontSize: 36,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
           titleSmall: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
-          // bodyMedium: GoogleFonts.merriweather(),
-          // displaySmall: GoogleFonts.pacifico(),
         ),
       ),
-      // darkTheme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,brightness: Brightness.dark),
-      //   useMaterial3: true,
-      // ),
-      home: const MainScreen(title: 'My Tasks'),
+      home: SessionManager(
+          streamController: streamController,
+          duration: const Duration(seconds: 10),
+          context: context,
+          child: const MainScreen(title: 'My Tasks')),
     );
   }
 }
