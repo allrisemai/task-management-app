@@ -10,8 +10,22 @@ void main() {
     testWidgets('Verify that changing tab works correctly',
         (widgetTester) async {
       await widgetTester.pumpWidget(const MyApp());
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 2));
       await widgetTester.pumpAndSettle();
+
+      await widgetTester.tap(find.text("1"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("2"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("3"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("4"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("5"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("6"));
+      await widgetTester.pumpAndSettle();
+
       expect(find.text("My Tasks"), findsOneWidget);
       expect(find.byKey(const Key('TaskItem_TODO')), findsAtLeastNWidgets(1));
 
@@ -29,6 +43,22 @@ void main() {
     testWidgets('Verify that the passcode is shown after 10 seconds',
         (widgetTester) async {
       await widgetTester.pumpWidget(const MyApp());
+      await Future.delayed(const Duration(seconds: 2));
+      await widgetTester.pumpAndSettle();
+
+      await widgetTester.tap(find.text("1"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("2"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("3"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("4"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("5"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("6"));
+      await widgetTester.pumpAndSettle();
+
       await Future.delayed(const Duration(seconds: 10));
       await widgetTester.pumpAndSettle();
       expect(find.text('Please enter your passcode'), findsOneWidget);
@@ -40,6 +70,20 @@ void main() {
       await widgetTester.pumpWidget(const MyApp());
       await Future.delayed(const Duration(seconds: 3));
       await widgetTester.pumpAndSettle();
+
+      await widgetTester.tap(find.text("1"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("2"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("3"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("4"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("5"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("6"));
+      await widgetTester.pumpAndSettle();
+
       await widgetTester.tap(find.byKey(const Key('TaskItem_TODO')).first);
       await Future.delayed(const Duration(seconds: 1));
       await widgetTester.pumpAndSettle();
@@ -49,6 +93,19 @@ void main() {
     testWidgets('Verify that task is deleted', (widgetTester) async {
       await widgetTester.pumpWidget(const MyApp());
       await Future.delayed(const Duration(seconds: 3));
+      await widgetTester.pumpAndSettle();
+
+      await widgetTester.tap(find.text("1"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("2"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("3"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("4"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("5"));
+      await widgetTester.pump();
+      await widgetTester.tap(find.text("6"));
       await widgetTester.pumpAndSettle();
 
       await widgetTester.drag(

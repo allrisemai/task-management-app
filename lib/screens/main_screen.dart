@@ -106,12 +106,12 @@ class _MainScreenState extends State<MainScreen>
               borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(20.0),
           )),
-          leading: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.menu,
-                color: Theme.of(context).colorScheme.primary,
-              )),
+          // leading: IconButton(
+          //     onPressed: () {},
+          //     icon: Icon(
+          //       Icons.menu,
+          //       color: Theme.of(context).colorScheme.primary,
+          //     )),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(50.0),
             child: Container(
