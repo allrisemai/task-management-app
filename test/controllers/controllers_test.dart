@@ -35,8 +35,6 @@ void main() {
       final firstTab = myTabController.tabList[0];
       expect(myTabController.currentTab.value, firstTab);
     });
-
-    // Add more tests as needed to validate the behavior of your MyTabController class.
   });
   group('TaskController Tests', () {
     TaskController taskController = TaskController();
