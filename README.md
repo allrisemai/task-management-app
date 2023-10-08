@@ -1,6 +1,6 @@
 # Task Management Application
 
-The Task Management Application is a mobile app designed to help users manage their tasks efficiently. It provides features for creating, categorizing, and organizing tasks into three categories: to-do, doing, and done. Additionally, the app includes a passcode lock screen for added security and user convenience.
+The Task Management Application is a mobile app designed to help users manage their tasks efficiently.
 
 ## Getting Started
 
