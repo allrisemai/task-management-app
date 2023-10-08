@@ -28,18 +28,21 @@ class _SessionManagerState extends State<SessionManager>
   void _startSessionTimer() {
     if (!mounted) return;
     _sessionTimer = Timer(widget.duration, () {
-      screenLock(
-          context: context,
-          correctString: '123456',
-          canCancel: false,
-          onUnlocked: () {
-            _startSession();
-
-            Navigator.of(context).pop();
-          },
-          onOpened: cancelTimer,
-          title: const Text('Please enter your passcode'));
+      _openscreenLock();
     });
+  }
+
+  void _openscreenLock() {
+    screenLock(
+        context: context,
+        correctString: '123456',
+        canCancel: false,
+        onUnlocked: () {
+          _startSession();
+          Navigator.of(context).pop();
+        },
+        onOpened: cancelTimer,
+        title: const Text('Please enter your passcode'));
   }
 
   // by using this close the session timer
@@ -66,6 +69,10 @@ class _SessionManagerState extends State<SessionManager>
         cancelTimer();
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _openscreenLock();
+    });
   }
 
   @override
@@ -73,7 +80,6 @@ class _SessionManagerState extends State<SessionManager>
     if (state == AppLifecycleState.resumed ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused ||
-        state == AppLifecycleState.detached ||
         state == AppLifecycleState.hidden) {
       _startSession();
     }

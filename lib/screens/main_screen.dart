@@ -24,7 +24,6 @@ class _MainScreenState extends State<MainScreen>
     _tabController =
         TabController(vsync: this, length: myTabController.tabList.length);
     _tabController.addListener(_handleChangeTab);
-
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await taskController.fetchTasks(myTabController.currentTab.value.id);
       _scrollController.addListener(_loadMoreData);
@@ -179,12 +178,12 @@ class _MainScreenState extends State<MainScreen>
             ],
           );
         }),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {},
-          tooltip: 'Add tasks',
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () async {},
+        //   tooltip: 'Add tasks',
+        //   shape: const CircleBorder(),
+        //   child: const Icon(Icons.add),
+        // ),
       ),
     );
   }
